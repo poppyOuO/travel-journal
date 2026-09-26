@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f4">
+  <title>热浪岛行程管家</title>
+  <style>
+    :root {
+      --bg:#f3f5f1; --paper:#fff; --ink:#16211e; --muted:#68736f; --line:#dce2dd;
+      --sea:#087f78; --sea-dark:#075a57; --sea-soft:#dff1ee; --blue:#266893;
+      --sun:#e5a226; --sun-soft:#fff1cf; --alert:#b84d3f; --alert-soft:#fce8e3;
+      --shadow:0 12px 30px rgba(25,48,43,.10); --r:8px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",sans-serif;letter-spacing:0}
+    button,input,textarea{font:inherit;letter-spacing:0} button{cursor:pointer}
+    .app{width:min(100%,480px);min-height:100vh;margin:auto;background:#f9faf7;box-shadow:0 0 70px rgba(22,33,30,.14);padding-bottom:90px}
+    .top{position:sticky;top:0;z-index:30;background:rgba(249,250,247,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px}.trip-name{font-size:17px;font-weight:780}.trip-meta{font-size:11px;color:var(--muted);margin-top:2px}.countdown{padding:6px 9px;border:1px solid #b9d8d3;color:var(--sea-dark);background:var(--sea-soft);border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+    .tabs{display:flex;gap:4px;margin-top:11px;padding:3px;background:#edf1ed;border-radius:8px}.tab{flex:1;border:0;background:transparent;color:var(--muted);height:34px;border-radius:6px;font-size:12px;font-weight:700}.tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 10px rgba(25,48,43,.10)}
+    main{padding:14px}.screen{display:none}.screen.active{display:block}
+    .cover{height:158px;position:relative;overflow:hidden;border-radius:var(--r);background:#174d55 url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=82') center/cover;color:#fff;box-shadow:var(--shadow)}
+    .cover:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,31,34,.78),rgba(4,31,34,.12))}.cover-text{position:absolute;z-index:1;left:16px;right:16px;bottom:15px}.cover h1{font-size:25px;line-height:1.12;margin:0 0 8px;max-width:300px}.cover p{font-size:12px;line-height:1.5;margin:0;color:rgba(255,255,255,.88)}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--r);background:#fff;margin-top:10px}.metric{padding:11px 8px;text-align:center}.metric+.metric{border-left:1px solid var(--line)}.metric strong{display:block;font-size:16px}.metric span{font-size:10px;color:var(--muted)}
+    .section-title{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 2px 10px}.section-title h2{font-size:16px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+    .day-strip{display:flex;gap:7px;overflow-x:auto;padding:0 1px 5px;scrollbar-width:none}.day-strip::-webkit-scrollbar{display:none}.day-chip{flex:0 0 59px;height:62px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--muted);display:flex;flex-direction:column;justify-content:center;align-items:center}.day-chip b{font-size:17px;color:var(--ink)}.day-chip span{font-size:10px;margin-top:2px}.day-chip.active{background:var(--sea);border-color:var(--sea);color:#dff8f4}.day-chip.active b{color:#fff}
+    .day-heading{padding:16px 2px 10px}.day-heading .place{font-size:21px;font-weight:800}.day-heading .sleep{font-size:11px;color:var(--muted);margin-top:4px}.day-status{display:inline-flex;margin-top:8px;padding:4px 7px;border-radius:4px;background:var(--sun-soft);color:#7a5311;font-size:10px;font-weight:700}
+    .timeline{border-left:1px solid #b8c8c3;margin-left:8px;padding-left:18px}.event{position:relative;padding:0 0 20px}.event:before{content:"";position:absolute;left:-23px;top:4px;width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid var(--sea)}.event:last-child{padding-bottom:4px}.event-time{font-size:11px;font-weight:750;color:var(--sea-dark);font-variant-numeric:tabular-nums}.event-title{font-size:15px;font-weight:760;margin-top:3px}.event-desc{font-size:12px;line-height:1.55;color:var(--muted);margin-top:4px}.transport{margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:var(--r);padding:10px 11px}.route{display:flex;align-items:center;justify-content:space-between;gap:10px}.airport b{display:block;font-size:15px}.airport small{font-size:10px;color:var(--muted)}.route-line{flex:1;height:1px;background:var(--line);position:relative}.route-line:after{content:"›";position:absolute;right:-1px;top:-11px;color:var(--sea);font-size:20px}.service{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--muted)}.flight-facts{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);display:grid;gap:5px}.flight-facts div{display:grid;grid-template-columns:66px 1fr;gap:8px;font-size:10px;line-height:1.45}.flight-facts b{color:var(--ink);font-weight:700}.flight-facts span{color:var(--muted)}
+    .status{display:inline-flex;padding:3px 6px;border-radius:4px;font-size:9px;font-weight:700}.pending{background:var(--sun-soft);color:#7a5311}.verified{background:var(--sea-soft);color:var(--sea-dark)}
+    .note-box{margin-top:18px;border-top:1px solid var(--line);padding-top:13px}.note-box label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.note-box textarea{width:100%;min-height:78px;border:1px solid var(--line);border-radius:var(--r);padding:10px;background:#fff;resize:vertical;color:var(--ink)}.note-save{margin-top:7px;border:0;border-radius:6px;background:var(--sea);color:#fff;padding:8px 12px;font-size:11px;font-weight:700}
+    .progress-band{background:#163f42;color:#fff;border-radius:var(--r);padding:14px 15px;margin-bottom:12px}.progress-row{display:flex;justify-content:space-between;align-items:center}.progress-row b{font-size:18px}.progress-row span{font-size:11px;color:#c8dedb}.bar{height:5px;background:rgba(255,255,255,.18);border-radius:10px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#f4c668;transition:width .2s}
+    .group{border-top:1px solid var(--line)}.group:first-of-type{border-top:0}.group-head{padding:16px 2px 8px;display:flex;justify-content:space-between;align-items:center}.group-head h3{margin:0;font-size:14px}.group-head span{font-size:10px;color:var(--muted)}.focus-group .group-head h3{color:#80560d}.focus-group .check-list{border-color:#e8c97f;box-shadow:0 5px 16px rgba(168,112,18,.08)}.urgent-group .group-head h3{color:var(--alert);font-size:16px}.urgent-group .group-head span{color:var(--alert);font-weight:750}.urgent-group .check-list{border:2px solid #df7b6c;background:var(--alert-soft);box-shadow:0 7px 18px rgba(184,77,63,.12)}.urgent-group .check-row{background:transparent}.urgent-group .check-copy b{color:#8f342a;font-size:14px}
+    .check-list{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}.check-row{display:flex;align-items:flex-start;gap:10px;padding:12px;border-bottom:1px solid #edf0ed}.check-row:last-child{border-bottom:0}.check-row input{position:absolute;opacity:0}.box{width:20px;height:20px;border:1.5px solid #9daaa5;border-radius:5px;flex:0 0 auto;display:grid;place-items:center;color:#fff;margin-top:1px}.check-row input:checked+.box{background:var(--sea);border-color:var(--sea)}.check-row input:checked+.box:after{content:"✓";font-size:13px;font-weight:800}.check-row input:checked~.check-copy b{text-decoration:line-through;color:#84908c}.check-copy b{display:block;font-size:13px;font-weight:650}.check-copy small{display:block;color:var(--muted);font-size:10px;margin-top:3px;line-height:1.4}.buy-tag{display:inline-block;margin-left:6px;background:var(--alert-soft);color:var(--alert);font-size:9px;padding:2px 5px;border-radius:3px;vertical-align:1px}
+    .pending-summary{padding:14px;background:var(--sun-soft);border:1px solid #eed49d;border-radius:var(--r);margin-bottom:12px}.pending-summary b{font-size:15px}.pending-summary p{font-size:11px;line-height:1.5;color:#725928;margin:5px 0 0}
+    .booking-item{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:start;padding:13px 3px;border-bottom:1px solid var(--line)}.booking-item input{width:17px;height:17px;accent-color:var(--sea)}.booking-item b{display:block;font-size:13px}.booking-item p{margin:4px 0 0;color:var(--muted);font-size:10px;line-height:1.45}.booking-item em{font-style:normal;font-size:9px;color:#7a5311;background:var(--sun-soft);padding:3px 5px;border-radius:3px}
+    .bottom{position:fixed;z-index:40;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,480px);display:grid;grid-template-columns:repeat(3,1fr);padding:7px 10px calc(7px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(16px)}.bottom button{border:0;background:transparent;color:var(--muted);height:47px;font-size:11px;font-weight:650}.bottom button b{display:block;font-size:16px;line-height:18px}.bottom button.active{color:var(--sea-dark)}
+    .toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,12px);background:#17211f;color:#fff;padding:9px 13px;border-radius:6px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;z-index:80}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(min-width:700px){body{padding:24px 0}.app{min-height:calc(100vh - 48px);border-radius:12px;overflow:hidden}.bottom{bottom:24px;border-radius:0 0 12px 12px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="topline"><div><div class="trip-name">热浪岛潜水假期</div><div class="trip-meta">2026.09.28–10.07 · 吉隆坡 / 登嘉楼 / 热浪岛</div></div><div class="countdown" id="countdown">行程准备中</div></div>
+    <div class="tabs"><button class="tab active" data-screen="plan">每日行程</button><button class="tab" data-screen="bookings">待确认</button><button class="tab" data-screen="packing">行李</button></div>
+  </header>
+  <main>
+    <section class="screen active" id="plan">
+      <div class="cover"><div class="cover-text"><h1>回到热浪岛，认真潜几天水</h1><p>两间海边酒店 · AOW + Fun Dive · 所有时间均为当地时间</p></div></div>
+      <div class="summary"><div class="metric"><strong>10天</strong><span>完整旅程</span></div><div class="metric"><strong>6晚</strong><span>热浪岛</span></div><div class="metric"><strong>3天</strong><span>计划潜水</span></div></div>
+      <div class="section-title"><h2>按天查看</h2><span>左右滑动日期</span></div>
+      <div class="day-strip" id="dayStrip"></div>
+      <div id="dayDetail"></div>
+    </section>
+    <section class="screen" id="bookings">
+      <div class="pending-summary"><b id="pendingCount">还有待确认事项</b><p>这些是行程信息，不混入行李清单。收到酒店、潜店或航司回复后可直接勾掉。</p></div>
+      <div id="bookingList"></div>
+    </section>
+    <section class="screen" id="packing">
+      <div class="progress-band"><div class="progress-row"><b>收拾进度</b><span id="packText">0 / 0</span></div><div class="bar"><i id="packBar"></i></div></div>
+      <div id="packingList"></div>
+    </section>
+  </main>
+  <nav class="bottom"><button class="active" data-screen="plan"><b>◷</b>行程</button><button data-screen="bookings"><b>✓</b>确认</button><button data-screen="packing"><b>□</b>行李</button></nav>
+</div>
+<div class="toast" id="toast">已保存</div>
+<script>
+const days=[
+ {d:'09.28',w:'周一',place:'重庆 → 吉隆坡',sleep:'MAX Hotel · KLIA T2',status:'3U3773 · 18:50–23:40',events:[
+  {t:'建议15:50',title:'抵达重庆江北机场 T3',desc:'国际航班建议提前3小时到达。川航已于2025年12月迁至T3运营；所有值机和安检均在T3A主楼完成。'},
+  {t:'18:50–23:40',title:'3U3773 重庆飞吉隆坡',desc:'计划飞行约4小时50分，两地无时差。抵达后办理入境并提取托运行李。',route:{a:'CKG T3',b:'KUL T1',service:'四川航空 3U3773',state:'计划时刻已核验',facts:[['值机位置','重庆T3A国际出发大厅；具体值机岛和柜台当天看机场屏幕或川航通知'],['柜台号码','动态分配，通常在起飞前数小时公布，不能提前固定'],['到达航站楼','吉隆坡国际机场 KLIA Terminal 1'],['行李转盘','动态分配；入境后查看T1到达层屏幕上的3U3773'],['核验日期','2026-09-24；出发当天再次核对机场屏幕']]}},
+  {t:'00:40–01:20',title:'T1前往T2并入住',desc:'优先查看机场接驳；夜间班次不合适时乘Grab。MAX Hotel具体入口待订单确认。',route:{a:'KUL T1',b:'KUL T2',service:'航站楼接驳 · 约10–20分钟',state:'待核验夜间班次'}}]},
+ {d:'09.29',w:'周二',place:'吉隆坡 → 登嘉楼',sleep:'登嘉楼市区酒店 · 酒店名待补',status:'AK6228 · 14:15–15:10',events:[
+  {t:'上午',title:'与男朋友会合、休息',desc:'男朋友抵达后到T2酒店休息；预留退房和午餐时间。'},
+  {t:'建议12:15前',title:'到达KLIA T2值机区域',desc:'AirAsia马来西亚国内航班，建议提前2小时到达。完成手机值机后，有托运行李仍需前往Bag Drop。'},
+  {t:'14:15–15:10',title:'AK6228 吉隆坡飞登嘉楼',desc:'计划飞行55分钟。到达后提取行李并前往登嘉楼酒店。',route:{a:'KUL T2',b:'TGG',service:'AirAsia AK6228',state:'计划时刻已核验',facts:[['出发航站楼','吉隆坡国际机场 KLIA Terminal 2'],['值机柜台','AirAsia柜台/Bag Drop动态分配，当天查看T2航显和AirAsia App'],['到达航站楼','苏丹马末机场TGG主航站楼'],['行李转盘','动态分配；抵达后查看AK6228行李提取屏幕'],['核验日期','2026-09-26；出发当天再次核对AirAsia App']]}},
+  {t:'傍晚',title:'入住登嘉楼',desc:'晚餐后整理第二天上岛随身包，提前服用晕船药。'}]},
+ {d:'09.30',w:'周三',place:'登嘉楼 → 热浪岛',sleep:'Peridot By The Sea',status:'潜水已确认 · 2潜（含夜潜）',events:[
+  {t:'早上',title:'从登嘉楼前往码头',desc:'具体码头、报到柜台和车程等待Peridot确认。',route:{a:'TGG市区',b:'热浪岛',service:'码头 / 船班待酒店确认',state:'待酒店确认'}},
+  {t:'上午',title:'抵达Peridot并办理入住',desc:'确认船停靠点是否有人接、行李如何送到酒店。'},
+  {t:'下午',title:'日间潜水',desc:'完成第1潜；一人进行AOW课程，另一位持AOW参加Fun Dive。具体集合时间、潜点和科目由潜店按船班及海况安排。'},
+  {t:'晚上',title:'夜潜',desc:'完成第2潜（夜潜）。提前确认集合时间，带好潜水灯；结束后补水、冲洗装备并充分休息。'}]},
+ {d:'10.01',w:'周四',place:'热浪岛 · 潜水日',sleep:'Peridot By The Sea',status:'潜水已确认 · 3潜',events:[
+  {t:'上午',title:'第1–2潜',desc:'AOW课程与Fun Dive按潜店当天船次进行；具体潜点和课程科目由教练根据海况安排。'},
+  {t:'中午',title:'午餐与休息',desc:'补水、进食并冲洗装备，避免安排额外消耗体力的活动。'},
+  {t:'下午',title:'第3潜',desc:'完成当天第三潜，返店后记录潜水日志并确认次日集合时间。'},
+  {t:'晚上',title:'晚餐与恢复',desc:'当天三潜后不再安排其他项目，早点休息。'}]},
+ {d:'10.02',w:'周五',place:'热浪岛 · 潜水日',sleep:'Peridot By The Sea',status:'潜水已确认 · 2潜（午餐前结束）',events:[
+  {t:'上午',title:'第1–2潜',desc:'完成两潜；一人继续AOW课程，另一位持AOW参加Fun Dive，全部在午餐前结束。'},
+  {t:'午餐前',title:'本次预订潜水结束',desc:'冲洗并晾晒装备，确认AOW课程完成情况及电子证书提交进度。'},
+  {t:'下午',title:'海滩休息',desc:'不再安排水肺潜水，留作午餐、午睡和海边放松。'},
+  {t:'晚上',title:'整理换酒店行李',desc:'向Peridot和Taaras再次确认次日接送点与时间。'}]},
+ {d:'10.03',w:'周六',place:'Peridot → The Taaras',sleep:'The Taaras Beach & Spa Resort',status:'岛内接送待Taaras确认',events:[
+  {t:'上午',title:'Peridot退房',desc:'完成行李交接，保留泳衣和防晒在随身包。'},
+  {t:'待确认',title:'前往The Taaras',desc:'由接收酒店确认接船位置、时间、费用及行李处理。',route:{a:'Peridot',b:'The Taaras',service:'岛内船接送待确认',state:'待酒店确认'}},
+  {t:'下午',title:'入住与度假村休息',desc:'熟悉海滩、潜水中心和餐厅，当天不安排紧凑活动。'}]},
+ {d:'10.04',w:'周日',place:'The Taaras',sleep:'The Taaras Beach & Spa Resort',status:'自由安排',events:[
+  {t:'上午',title:'轻量海上活动',desc:'优先选择浮潜、透明船或皮划艇；如临时追加水肺潜水，需重新计算禁飞间隔。'},
+  {t:'下午',title:'海滩躺平',desc:'游泳、晒太阳、拍照，留足休息。'},
+  {t:'晚上',title:'度假村晚餐',desc:'确认10月6日离岛交通。'}]},
+ {d:'10.05',w:'周一',place:'The Taaras',sleep:'The Taaras Beach & Spa Resort',status:'休息日 · 不安排水肺潜水',events:[
+  {t:'上午',title:'睡到自然醒',desc:'早餐后在酒店海滩散步、游泳或拍照，不安排水肺潜水。'},
+  {t:'全天',title:'保持禁飞间隔',desc:'本次已确认的最后一潜在10月2日午餐前结束，为10月6日下午航班留出超过72小时。'},
+  {t:'下午',title:'SPA或海滩休息',desc:'整理装备、晾干泳衣和水母衣。'}]},
+ {d:'10.06',w:'周二',place:'热浪岛 → 吉隆坡',sleep:'航班 / 机场衔接',status:'AK6229 · 15:35–16:40',events:[
+  {t:'建议09:00前后',title:'从The Taaras离岛',desc:'必须让酒店确认抵达大陆时间及送机衔接；目标最晚13:35前抵达TGG值机区域。',route:{a:'热浪岛',b:'TGG机场',service:'船班 + 送机待确认',state:'高优先级'}},
+  {t:'建议13:35前',title:'抵达TGG办理值机和托运',desc:'提前完成AirAsia手机值机；有托运行李需在主航站楼Bag Drop办理。'},
+  {t:'15:35–16:40',title:'AK6229 登嘉楼飞吉隆坡',desc:'计划飞行1小时05分，抵达KLIA T2。',route:{a:'TGG',b:'KUL T2',service:'AirAsia AK6229',state:'计划时刻已核验',facts:[['出发航站楼','苏丹马末机场TGG主航站楼'],['值机柜台','AirAsia柜台/Bag Drop动态分配，当天查看机场航显'],['到达航站楼','吉隆坡国际机场 KLIA Terminal 2'],['行李转盘','动态分配；抵达T2后查看AK6229行李提取屏幕'],['核验日期','2026-09-26；出发当天再次核对AirAsia App']]}},
+  {t:'约17:30以后',title:'T2取行李后前往T1',desc:'3U3774于次日00:45从T1起飞。取行李后使用航站楼交通前往T1，晚餐并等待川航柜台开放。'}]},
+ {d:'10.07',w:'周三',place:'吉隆坡 → 重庆 → 北京',sleep:'北京',status:'3U3774 + 3U8829 · 00:45–09:40',events:[
+  {t:'10.06 21:45前',title:'到达KLIA T1办理返程值机',desc:'3U3774在10月7日00:45起飞，建议最晚提前3小时到T1。务必在柜台确认两段是否同一票号、行李是否直挂北京，并领取两段登机牌。'},
+  {t:'00:45–05:15',title:'3U3774 吉隆坡飞重庆',desc:'计划飞行约4小时30分。重庆是中国首个入境点，需在这里完成入境检查并按现场指引转国内航班。',route:{a:'KUL T1',b:'CKG T3',service:'四川航空 3U3774',state:'计划时刻已核验',facts:[['值机位置','KLIA Terminal 1国际出发大厅；具体值机排/柜台当天看T1航显'],['柜台号码','动态分配；预计起飞前约3小时开放，以机场航显为准'],['到达航站楼','重庆江北机场T3，国际到达流程在T3A'],['行李转盘','取决于是否直挂及海关流程；必须在KUL柜台确认'],['关键提醒','05:15落地至07:15起飞仅2小时，中转流程不可临时猜测']]}},
+  {t:'05:15–07:15',title:'重庆入境并转国内航班',desc:'按“国际转国内”标识办理边检、海关和安检。若行李不能直挂，需要提取后重新托运，2小时非常紧；必须提前让川航书面或柜台确认联程保障。'},
+  {t:'07:15–09:40',title:'3U8829 重庆飞北京首都',desc:'计划飞行约2小时25分。所有值机/转机手续在T3A完成，实际登机口可能位于T3A或通过捷运前往T3B。',route:{a:'CKG T3',b:'PEK T2',service:'四川航空 3U8829',state:'计划时刻已核验',facts:[['出发航站楼','重庆T3；值机、转机安检在T3A主楼'],['登机区域','登机口当天分配；如为J/K/L/M区域，需乘机场捷运前往T3B'],['到达航站楼','北京首都国际机场T2'],['行李转盘','动态分配；抵达T2后查看3U8829行李提取屏幕'],['核验日期','2026-09-24；航站楼/时刻出发当天复核']]}},
+  {t:'09:40',title:'抵达北京',desc:'行程结束。按实际到达机场和行李时间安排回家交通。'}]}
+];
+
+const bookings=[
+ ['peridot-jetty','Peridot上岛交通','确认码头、船班、报到柜台、船票价格及抵达后是否有人接','等待酒店回复'],
+ ['dive','潜水课程与Fun Dive','9月30日2潜（含夜潜）、10月1日3潜、10月2日2潜且午餐前结束','已确认'],
+ ['taaras-transfer','10月3日换酒店','确认Peridot到The Taaras的接船点、时间、费用和行李','待联系'],
+ ['return-boat','10月6日离岛','确认早班船、抵达大陆时间及TGG机场送机','高优先级'],
+ ['flights','返程行李与联程保障','五段航班号、计划时刻和航站楼已录入；仍需向川航确认3U3774→3U8829是否同票、两段登机牌及行李直挂/重庆海关流程','高优先级'],
+ ['tgg-hotel','登嘉楼住宿','补齐9月29日酒店名称、地址和前往码头方式','待补'],
+ ['mdac','MDAC入境申报','在可申报时间内完成并保存截图','出发前'],
+ ['cert','电子潜水证归档','收到截图后保存到旅行项目，不作为实物行李','待上传'],
+ ['nofly','禁飞间隔','已确认潜水于10月2日午餐前结束，至10月6日15:35航班超过72小时','已满足']
+];
+
+const packing={
+ '9月27日必须完成':[['liu-mdac-urgent','申请并提交MDAC','完成后保存申报截图']],
+ '刘老师关注':[['liu-cash','拿现金',''],['liu-sim-adapter','手机卡 + 转换插头',''],['liu-fins','脚蹼',''],['liu-pocket','Pocket','带设备及对应配件'],['liu-action-housing','Action + 防水壳','确认防水壳已装包'],['liu-sun-umbrella','遮阳伞',''],['liu-newhome-sunglasses','去新家拿：墨镜',''],['liu-newhome-mask','去新家拿：面膜',''],['liu-newhome-cleanser','去新家拿：洗面奶',''],['liu-newhome-mosquito','去新家拿：灭蚊药',''],['liu-newhome-hairtie','去新家拿：扎头发的',''],['liu-newhome-phonebag','去新家拿：手机防水袋',''],['liu-newhome-repellent','去新家拿：驱蚊水',''],['liu-newhome-white-shirt','去新家拿：防晒外套（白色衬衣）',''],['liu-parcel-socks','拆开快递：潜水袜',''],['liu-parcel-antifog','拆开快递：防雾片',''],['liu-parcel-shampoo','拆开快递：强生婴儿洗发露','面镜除雾用']],
+ '证件与钱':[['passport','护照',''],['mdac-shot','MDAC截图',''],['cash','马币现金',''],['cards','储蓄卡、信用卡','']],
+ '通信与充电':[['sim','手机卡 / eSIM',''],['adapter','英标转换插头',''],['chargers','各设备充电头及充电线',''],['powerbank','充电宝','必须随身携带'],['earphones','耳机','']],
+ '潜水与水上':[['bag','背包',''],['fins','脚蹼',''],['snorkel','呼吸管',''],['mask','面镜',''],['socks','潜水袜',''],['phonebag','手机防水袋',''],['free-suit','自由潜泳衣',''],['rashguard','水母衣',''],['swim','比基尼 / 泳衣',''],['gloves','潜水手套','先确认潜店规定'],['logbook','潜水日记本',''],['drybag','防水干袋 / 湿衣袋',''],['defog','防雾液','待购买']],
+ '防晒与雨具':[['suncream','防晒霜',''],['sunmud','防晒泥',''],['sunjacket','防晒外套',''],['sunglasses','墨镜',''],['umbrella','雨伞','']],
+ '衣物':[['sleepwear','睡衣',''],['disposable','一次性内裤',''],['normal-socks','袜子',''],['flipflops','拖鞋 / 人字拖',''],['laundry','脏衣袋','']],
+ '洗护':[['towel','一次性浴巾',''],['toiletries','洗漱、卸妆及护肤用品',''],['haircare','洗发水、护发素、发油',''],['roller','刘海卷',''],['makeup','化妆品',''],['contacts','隐形眼镜及护理用品',''],['tissues','餐巾纸 / 湿纸巾',''],['period','女性卫生用品','按需']],
+ '药品':[['motion','晕船药','上船前按说明服用'],['stomach','胃药',''],['cold','感冒 / 发烧药',''],['allergy','抗过敏药',''],['mosquito','灭蚊药',''],['firstaid','防水创可贴及基础消毒用品','']],
+ '相机':[['action','Action相机',''],['pocket','Pocket相机',''],['fuji','富士相机','可选'],['housing','水下壳及常用配件',''],['camera-chargers','对应充电器','']],
+ '其他':[['book','书',''],['eyemask','眼罩','']]
+};
+
+const store={get:(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+let activeDay=0;
+function renderDays(){dayStrip.innerHTML=days.map((x,i)=>`<button class="day-chip ${i===activeDay?'active':''}" data-day="${i}"><b>${x.d.slice(3)}</b><span>${x.w}</span></button>`).join('');dayStrip.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeDay=+b.dataset.day;renderDays();renderDay();});}
+function renderDay(){const x=days[activeDay],notes=store.get('redang-notes',{});dayDetail.innerHTML=`<div class="day-heading"><div class="place">${x.place}</div><div class="sleep">今晚住：${x.sleep}</div><div class="day-status">${x.status}</div></div><div class="timeline">${x.events.map(e=>`<article class="event"><div class="event-time">${e.t}</div><div class="event-title">${e.title}</div><div class="event-desc">${e.desc}</div>${e.route?`<div class="transport"><div class="route"><div class="airport"><b>${e.route.a}</b><small>出发</small></div><div class="route-line"></div><div class="airport" style="text-align:right"><b>${e.route.b}</b><small>到达</small></div></div><div class="service"><span>${e.route.service}</span><span class="status pending">${e.route.state}</span></div>${e.route.facts?`<div class="flight-facts">${e.route.facts.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>`:''}</div>`:''}</article>`).join('')}</div><div class="note-box"><label>这一天的临时备注</label><textarea id="dayNote" placeholder="例如：潜店集合时间、餐厅、房号……">${notes[x.d]||''}</textarea><button class="note-save" id="saveNote">保存备注</button></div>`;saveNote.onclick=()=>{notes[x.d]=dayNote.value;store.set('redang-notes',notes);toast('备注已保存')};}
+function renderBookings(){const checked=store.get('redang-bookings',{});bookingList.innerHTML=bookings.map(x=>`<label class="booking-item"><input type="checkbox" data-id="${x[0]}" ${checked[x[0]]?'checked':''}><div><b>${x[1]}</b><p>${x[2]}</p></div><em>${x[3]}</em></label>`).join('');bookingList.querySelectorAll('input').forEach(i=>i.onchange=()=>{checked[i.dataset.id]=i.checked;store.set('redang-bookings',checked);updateBookingCount();});updateBookingCount();}
+function updateBookingCount(){const checked=store.get('redang-bookings',{}),n=bookings.filter(x=>!checked[x[0]]).length;pendingCount.textContent=n?`还有 ${n} 项待确认`:'确认事项已全部完成';}
+function renderPacking(){const checked=store.get('redang-packing',{});packingList.innerHTML=Object.entries(packing).map(([group,items])=>`<section class="group ${group==='刘老师关注'?'focus-group':''} ${group==='9月27日必须完成'?'urgent-group':''}"><div class="group-head"><h3>${group}</h3><span>${items.length}项</span></div><div class="check-list">${items.map(x=>`<label class="check-row"><input type="checkbox" data-id="${x[0]}" ${checked[x[0]]?'checked':''}><span class="box"></span><span class="check-copy"><b>${x[1]}${x[2]==='待购买'?'<i class="buy-tag">待购买</i>':''}</b>${x[2]&&x[2]!=='待购买'?`<small>${x[2]}</small>`:''}</span></label>`).join('')}</div></section>`).join('');packingList.querySelectorAll('input').forEach(i=>i.onchange=()=>{checked[i.dataset.id]=i.checked;store.set('redang-packing',checked);updatePack();});updatePack();}
+function updatePack(){const checked=store.get('redang-packing',{}),all=Object.values(packing).flat(),done=all.filter(x=>checked[x[0]]).length;packText.textContent=`${done} / ${all.length}`;packBar.style.width=`${done/all.length*100}%`;}
+function switchScreen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-screen]').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>switchScreen(b.dataset.screen));
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1400)}
+function setCountdown(){const target=new Date('2026-09-28T00:00:00+08:00'),now=new Date(),n=Math.ceil((target-now)/86400000);countdown.textContent=n>1?`还有 ${n} 天出发`:n===1?'明天出发':n===0?'今天出发':'旅途中';}
+setCountdown();renderDays();renderDay();renderBookings();renderPacking();
+</script>
+</body>
+</html>
