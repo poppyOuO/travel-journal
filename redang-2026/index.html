@@ -16,7 +16,7 @@
     button,input,textarea{font:inherit;letter-spacing:0} button{cursor:pointer}
     .app{width:min(100%,480px);min-height:100vh;margin:auto;background:#f9faf7;box-shadow:0 0 70px rgba(22,33,30,.14);padding-bottom:90px}
     .top{position:sticky;top:0;z-index:30;background:rgba(249,250,247,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
-    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px}.trip-name{font-size:17px;font-weight:780}.trip-meta{font-size:11px;color:var(--muted);margin-top:2px}.countdown{padding:6px 9px;border:1px solid #b9d8d3;color:var(--sea-dark);background:var(--sea-soft);border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px}.trip-name{font-size:17px;font-weight:780}.trip-meta{font-size:11px;color:var(--muted);margin-top:2px}.top-actions{display:flex;align-items:center;gap:6px}.countdown{padding:6px 9px;border:1px solid #b9d8d3;color:var(--sea-dark);background:var(--sea-soft);border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}.edit-trigger{width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--sea-dark);font-size:16px;font-weight:800}.edit-trigger[hidden]{display:none}
     .tabs{display:flex;gap:4px;margin-top:11px;padding:3px;background:#edf1ed;border-radius:8px}.tab{flex:1;border:0;background:transparent;color:var(--muted);height:34px;border-radius:6px;font-size:12px;font-weight:700}.tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 10px rgba(25,48,43,.10)}
     main{padding:14px}.screen{display:none}.screen.active{display:block}
     .cover{height:158px;position:relative;overflow:hidden;border-radius:var(--r);background:#174d55 url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=82') center/cover;color:#fff;box-shadow:var(--shadow)}
@@ -35,6 +35,7 @@
     .booking-item{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:start;padding:13px 3px;border-bottom:1px solid var(--line)}.booking-item input{width:17px;height:17px;accent-color:var(--sea)}.booking-item b{display:block;font-size:13px}.booking-item p{margin:4px 0 0;color:var(--muted);font-size:10px;line-height:1.45}.booking-item em{font-style:normal;font-size:9px;color:#7a5311;background:var(--sun-soft);padding:3px 5px;border-radius:3px}
     .bottom{position:fixed;z-index:40;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,480px);display:grid;grid-template-columns:repeat(3,1fr);padding:7px 10px calc(7px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(16px)}.bottom button{border:0;background:transparent;color:var(--muted);height:47px;font-size:11px;font-weight:650}.bottom button b{display:block;font-size:16px;line-height:18px}.bottom button.active{color:var(--sea-dark)}
     .toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,12px);background:#17211f;color:#fff;padding:9px 13px;border-radius:6px;font-size:11px;opacity:0;pointer-events:none;transition:.2s;z-index:80}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .editor-backdrop{position:fixed;inset:0;z-index:90;background:rgba(12,24,21,.46);display:none;align-items:flex-end;justify-content:center}.editor-backdrop.open{display:flex}.editor-sheet{width:min(100%,480px);max-height:88vh;overflow:auto;background:#f9faf7;border-radius:12px 12px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px rgba(12,24,21,.20)}.editor-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-16px;background:#f9faf7;padding:2px 0 12px;z-index:2}.editor-head h2{font-size:18px;margin:0}.editor-close{width:34px;height:34px;border:0;background:#e9eeea;border-radius:50%;font-size:20px;color:var(--ink)}.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.edit-field{display:block;margin-bottom:11px}.edit-field.full{grid-column:1/-1}.edit-field span{display:block;font-size:10px;color:var(--muted);margin-bottom:5px}.edit-field input,.edit-field textarea{width:100%;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);padding:10px;font-size:13px}.edit-field textarea{min-height:72px;resize:vertical}.event-editor{border-top:1px solid var(--line);padding:13px 0 2px}.event-editor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.event-editor-head b{font-size:13px}.remove-event{border:0;background:var(--alert-soft);color:var(--alert);border-radius:5px;padding:6px 8px;font-size:10px}.editor-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.editor-actions button,.add-event{height:40px;border-radius:7px;font-weight:750}.add-event{width:100%;border:1px dashed #96bcb5;background:var(--sea-soft);color:var(--sea-dark);margin-top:8px}.reset-edit{border:1px solid var(--line);background:#fff;color:var(--muted)}.save-edit{border:0;background:var(--sea);color:#fff}.local-hint{font-size:10px;line-height:1.45;color:var(--muted);margin:2px 0 10px}
     @media(min-width:700px){body{padding:24px 0}.app{min-height:calc(100vh - 48px);border-radius:12px;overflow:hidden}.bottom{bottom:24px;border-radius:0 0 12px 12px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
@@ -42,7 +43,7 @@
 <body>
 <div class="app">
   <header class="top">
-    <div class="topline"><div><div class="trip-name">热浪岛潜水假期</div><div class="trip-meta">2026.09.28–10.07 · 吉隆坡 / 登嘉楼 / 热浪岛</div></div><div class="countdown" id="countdown">行程准备中</div></div>
+    <div class="topline"><div><div class="trip-name">热浪岛潜水假期</div><div class="trip-meta">2026.09.28–10.07 · 吉隆坡 / 登嘉楼 / 热浪岛</div></div><div class="top-actions"><div class="countdown" id="countdown">行程准备中</div><button class="edit-trigger" id="editTrigger" aria-label="编辑当天行程" title="编辑当天行程">✎</button></div></div>
     <div class="tabs"><button class="tab active" data-screen="plan">每日行程</button><button class="tab" data-screen="bookings">待确认</button><button class="tab" data-screen="packing">行李</button></div>
   </header>
   <main>
@@ -65,6 +66,13 @@
   <nav class="bottom"><button class="active" data-screen="plan"><b>◷</b>行程</button><button data-screen="bookings"><b>✓</b>确认</button><button data-screen="packing"><b>□</b>行李</button></nav>
 </div>
 <div class="toast" id="toast">已保存</div>
+<div class="editor-backdrop" id="editorBackdrop" aria-hidden="true">
+  <section class="editor-sheet" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+    <div class="editor-head"><h2 id="editorTitle">编辑当天行程</h2><button class="editor-close" id="editorClose" aria-label="关闭">×</button></div>
+    <p class="local-hint">修改保存在当前手机浏览器，不会影响其他设备或公开发布版。</p>
+    <form id="dayEditor"></form>
+  </section>
+</div>
 <script>
 const days=[
  {d:'09.28',w:'周一',place:'重庆 → 吉隆坡',sleep:'MAX Hotel · KLIA T2',status:'3U3773 · 18:50–23:40',events:[
@@ -144,6 +152,9 @@ const packing={
 };
 
 const store={get:(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const publishedDays=JSON.parse(JSON.stringify(days));
+const savedDays=store.get('redang-edited-days',null);
+if(Array.isArray(savedDays)&&savedDays.length===days.length)days.splice(0,days.length,...savedDays);
 let activeDay=0;
 function renderDays(){dayStrip.innerHTML=days.map((x,i)=>`<button class="day-chip ${i===activeDay?'active':''}" data-day="${i}"><b>${x.d.slice(3)}</b><span>${x.w}</span></button>`).join('');dayStrip.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeDay=+b.dataset.day;renderDays();renderDay();});}
 function renderDay(){const x=days[activeDay],notes=store.get('redang-notes',{});dayDetail.innerHTML=`<div class="day-heading"><div class="place">${x.place}</div><div class="sleep">今晚住：${x.sleep}</div><div class="day-status">${x.status}</div></div><div class="timeline">${x.events.map(e=>`<article class="event"><div class="event-time">${e.t}</div><div class="event-title">${e.title}</div><div class="event-desc">${e.desc}</div>${e.route?`<div class="transport"><div class="route"><div class="airport"><b>${e.route.a}</b><small>出发</small></div><div class="route-line"></div><div class="airport" style="text-align:right"><b>${e.route.b}</b><small>到达</small></div></div><div class="service"><span>${e.route.service}</span><span class="status pending">${e.route.state}</span></div>${e.route.facts?`<div class="flight-facts">${e.route.facts.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>`:''}</div>`:''}</article>`).join('')}</div><div class="note-box"><label>这一天的临时备注</label><textarea id="dayNote" placeholder="例如：潜店集合时间、餐厅、房号……">${notes[x.d]||''}</textarea><button class="note-save" id="saveNote">保存备注</button></div>`;saveNote.onclick=()=>{notes[x.d]=dayNote.value;store.set('redang-notes',notes);toast('备注已保存')};}
@@ -151,8 +162,32 @@ function renderBookings(){const checked=store.get('redang-bookings',{});bookingL
 function updateBookingCount(){const checked=store.get('redang-bookings',{}),n=bookings.filter(x=>!checked[x[0]]).length;pendingCount.textContent=n?`还有 ${n} 项待确认`:'确认事项已全部完成';}
 function renderPacking(){const checked=store.get('redang-packing',{});packingList.innerHTML=Object.entries(packing).map(([group,items])=>`<section class="group ${group==='刘老师关注'?'focus-group':''} ${group==='9月27日必须完成'?'urgent-group':''}"><div class="group-head"><h3>${group}</h3><span>${items.length}项</span></div><div class="check-list">${items.map(x=>`<label class="check-row"><input type="checkbox" data-id="${x[0]}" ${checked[x[0]]?'checked':''}><span class="box"></span><span class="check-copy"><b>${x[1]}${x[2]==='待购买'?'<i class="buy-tag">待购买</i>':''}</b>${x[2]&&x[2]!=='待购买'?`<small>${x[2]}</small>`:''}</span></label>`).join('')}</div></section>`).join('');packingList.querySelectorAll('input').forEach(i=>i.onchange=()=>{checked[i.dataset.id]=i.checked;store.set('redang-packing',checked);updatePack();});updatePack();}
 function updatePack(){const checked=store.get('redang-packing',{}),all=Object.values(packing).flat(),done=all.filter(x=>checked[x[0]]).length;packText.textContent=`${done} / ${all.length}`;packBar.style.width=`${done/all.length*100}%`;}
-function switchScreen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-screen]').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));scrollTo({top:0,behavior:'smooth'});}
+function switchScreen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('[data-screen]').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));editTrigger.hidden=id!=='plan';scrollTo({top:0,behavior:'smooth'});}
 document.querySelectorAll('[data-screen]').forEach(b=>b.onclick=()=>switchScreen(b.dataset.screen));
+const esc=value=>String(value??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderEditor(){
+  const x=days[activeDay];
+  editorTitle.textContent=`编辑 ${x.d} 行程`;
+  dayEditor.innerHTML=`<div class="edit-grid">
+    <label class="edit-field full"><span>当天地点</span><input name="place" value="${esc(x.place)}"></label>
+    <label class="edit-field"><span>住宿</span><input name="sleep" value="${esc(x.sleep)}"></label>
+    <label class="edit-field"><span>状态</span><input name="status" value="${esc(x.status)}"></label>
+  </div><div id="eventEditors">${x.events.map((e,i)=>eventEditor(e,i,i)).join('')}</div>
+  <button type="button" class="add-event" id="addEvent">+ 新增一个活动</button>
+  <div class="editor-actions"><button type="button" class="reset-edit" id="resetEdit">恢复发布版</button><button type="submit" class="save-edit">保存修改</button></div>`;
+  bindEditorActions();
+}
+function eventEditor(e,i,source=-1){return `<section class="event-editor" data-event="${i}" data-source="${source}"><div class="event-editor-head"><b>活动 ${i+1}</b><button type="button" class="remove-event">删除</button></div><div class="edit-grid"><label class="edit-field"><span>时间</span><input name="time" value="${esc(e.t)}"></label><label class="edit-field"><span>标题</span><input name="title" value="${esc(e.title)}"></label><label class="edit-field full"><span>说明</span><textarea name="desc">${esc(e.desc)}</textarea></label></div></section>`}
+function bindEditorActions(){
+  dayEditor.querySelectorAll('.remove-event').forEach(b=>b.onclick=()=>{b.closest('.event-editor').remove();renumberEvents();});
+  addEvent.onclick=()=>{eventEditors.insertAdjacentHTML('beforeend',eventEditor({t:'待定',title:'新活动',desc:''},eventEditors.children.length));bindEditorActions();};
+  resetEdit.onclick=()=>{days[activeDay]=JSON.parse(JSON.stringify(publishedDays[activeDay]));store.set('redang-edited-days',days);renderDay();renderEditor();toast('已恢复当天发布版');};
+  dayEditor.onsubmit=e=>{e.preventDefault();const form=new FormData(dayEditor),current=days[activeDay],original=current.events;current.place=form.get('place').trim();current.sleep=form.get('sleep').trim();current.status=form.get('status').trim();current.events=[...eventEditors.querySelectorAll('.event-editor')].map(el=>{const source=Number(el.dataset.source),base=source>=0?original[source]:{};return {...base,t:el.querySelector('[name=time]').value.trim(),title:el.querySelector('[name=title]').value.trim(),desc:el.querySelector('[name=desc]').value.trim()}});store.set('redang-edited-days',days);renderDay();closeEditor();toast('当天行程已保存');};
+}
+function renumberEvents(){eventEditors.querySelectorAll('.event-editor-head b').forEach((b,i)=>b.textContent=`活动 ${i+1}`);}
+function openEditor(){renderEditor();editorBackdrop.classList.add('open');editorBackdrop.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+function closeEditor(){editorBackdrop.classList.remove('open');editorBackdrop.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+editTrigger.onclick=openEditor;editorClose.onclick=closeEditor;editorBackdrop.onclick=e=>{if(e.target===editorBackdrop)closeEditor()};
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1400)}
 function setCountdown(){const target=new Date('2026-09-28T00:00:00+08:00'),now=new Date(),n=Math.ceil((target-now)/86400000);countdown.textContent=n>1?`还有 ${n} 天出发`:n===1?'明天出发':n===0?'今天出发':'旅途中';}
 setCountdown();renderDays();renderDay();renderBookings();renderPacking();
