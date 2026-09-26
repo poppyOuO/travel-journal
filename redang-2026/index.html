@@ -76,9 +76,10 @@ const days=[
   {t:'建议12:15前',title:'到达KLIA T2值机区域',desc:'AirAsia马来西亚国内航班，建议提前2小时到达。完成手机值机后，有托运行李仍需前往Bag Drop。'},
   {t:'14:15–15:10',title:'AK6228 吉隆坡飞登嘉楼',desc:'计划飞行55分钟。到达后提取行李并前往登嘉楼酒店。',route:{a:'KUL T2',b:'TGG',service:'AirAsia AK6228',state:'计划时刻已核验',facts:[['出发航站楼','吉隆坡国际机场 KLIA Terminal 2'],['值机柜台','AirAsia柜台/Bag Drop动态分配，当天查看T2航显和AirAsia App'],['到达航站楼','苏丹马末机场TGG主航站楼'],['行李转盘','动态分配；抵达后查看AK6228行李提取屏幕'],['核验日期','2026-09-26；出发当天再次核对AirAsia App']]}},
   {t:'傍晚',title:'入住登嘉楼',desc:'晚餐后整理第二天上岛随身包，提前服用晕船药。'}]},
- {d:'09.30',w:'周三',place:'登嘉楼 → 热浪岛',sleep:'Peridot By The Sea',status:'潜水已确认 · 2潜（含夜潜）',events:[
-  {t:'早上',title:'从登嘉楼前往码头',desc:'具体码头、报到柜台和车程等待Peridot确认。',route:{a:'TGG市区',b:'热浪岛',service:'码头 / 船班待酒店确认',state:'待酒店确认'}},
-  {t:'上午',title:'抵达Peridot并办理入住',desc:'确认船停靠点是否有人接、行李如何送到酒店。'},
+ {d:'09.30',w:'周三',place:'登嘉楼 → 热浪岛',sleep:'Peridot By The Sea',status:'Al Ameen Jetty上岛 · 2潜（含夜潜）',events:[
+  {t:'早上',title:'前往Al Ameen Jetty',desc:'从登嘉楼住宿地前往Merang地区的Al Ameen Jetty；出发时间、报到时间和船班仍需按船方最终通知执行。',route:{a:'登嘉楼住宿地',b:'Al Ameen Jetty · Merang',service:'陆路接驳',state:'码头已确认'}},
+  {t:'上午',title:'乘船前往热浪岛',desc:'由Al Ameen Jetty登船前往热浪岛；具体下船点、是否直接停靠Peridot附近及酒店接行李方式仍待确认。',route:{a:'Al Ameen Jetty · Merang',b:'热浪岛',service:'上岛快艇',state:'码头已确认 / 船班待确认'}},
+  {t:'抵岛后',title:'前往Peridot并办理入住',desc:'根据实际下船点与酒店安排完成接驳和行李转运。'},
   {t:'下午',title:'日间潜水',desc:'完成第1潜；一人进行AOW课程，另一位持AOW参加Fun Dive。具体集合时间、潜点和科目由潜店按船班及海况安排。'},
   {t:'晚上',title:'夜潜',desc:'完成第2潜（夜潜）。提前确认集合时间，带好潜水灯；结束后补水、冲洗装备并充分休息。'}]},
  {d:'10.01',w:'周四',place:'热浪岛 · 潜水日',sleep:'Peridot By The Sea',status:'潜水已确认 · 3潜',events:[
@@ -117,7 +118,7 @@ const days=[
 ];
 
 const bookings=[
- ['peridot-jetty','Peridot上岛交通','确认码头、船班、报到柜台、船票价格及抵达后是否有人接','等待酒店回复'],
+ ['peridot-jetty','9月30日上岛交通','登船点已确认为Al Ameen Jetty（Merang）；继续确认出发/报到时间、热浪岛下船点及Peridot接驳','部分确认'],
  ['dive','潜水课程与Fun Dive','9月30日2潜（含夜潜）、10月1日3潜、10月2日2潜且午餐前结束','已确认'],
  ['taaras-transfer','10月3日换酒店','确认Peridot到The Taaras的接船点、时间、费用和行李','待联系'],
  ['return-boat','10月6日离岛','确认早班船、抵达大陆时间及TGG机场送机','高优先级'],
